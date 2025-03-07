@@ -1,0 +1,9 @@
+<launch>
+
+<node pkg="parameter_testing"
+    type="our_set_private_param.py"
+    name="node1_name_space"
+    output="screen">
+    <param name  = rosåy.get_param('/this_is_global_starts_with_slash')
+
+<launch>
