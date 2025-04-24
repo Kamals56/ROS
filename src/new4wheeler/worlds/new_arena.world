@@ -1,0 +1,122 @@
+<world name="new_arena">
+  <include>
+    <uri>model://ground_plane</uri>
+  </include>
+
+  <!-- North Wall -->
+  <model name="wall_north">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>10 0.1 1</size>
+          </box>
+        </geometry>
+        <pose>0 5 0.5 0 0 0</pose>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>10 0.1 1</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Gray</name>
+          </script>
+        </material>
+        <pose>0 5 0.5 0 0 0</pose>
+      </visual>
+    </link>
+  </model>
+
+  <!-- South Wall -->
+  <model name="wall_south">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>10 0.1 1</size>
+          </box>
+        </geometry>
+        <pose>0 -5 0.5 0 0 0</pose>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>10 0.1 1</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Gray</name>
+          </script>
+        </material>
+        <pose>0 -5 0.5 0 0 0</pose>
+      </visual>
+    </link>
+  </model>
+
+  <!-- East Wall -->
+  <model name="wall_east">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.1 10 1</size>
+          </box>
+        </geometry>
+        <pose>5 0 0.5 0 0 0</pose>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.1 10 1</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Gray</name>
+          </script>
+        </material>
+        <pose>5 0 0.5 0 0 0</pose>
+      </visual>
+    </link>
+  </model>
+
+  <!-- West Wall -->
+  <model name="wall_west">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.1 10 1</size>
+          </box>
+        </geometry>
+        <pose>-5 0 0.5 0 0 0</pose>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.1 10 1</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Gray</name>
+          </script>
+        </material>
+        <pose>-5 0 0.5 0 0 0</pose>
+      </visual>
+    </link>
+  </model>
+
+</world>

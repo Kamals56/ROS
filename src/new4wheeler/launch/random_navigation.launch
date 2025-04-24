@@ -1,0 +1,19 @@
+<launch>
+    <!-- Launch Gazebo with the arena world -->
+    <arg name="world_name" default="$(find new4wheeler)/worlds/new_arena.world"/>
+    
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+    <!-- Start your robot -->
+    <include file="$(find new4wheeler)/launch/new4wheeler.launch"/>
+    
+    <!-- Start random walk node -->
+    <node pkg="new4wheeler" type="random_walk.py" name="random_walk" output="screen"/>
+</launch>

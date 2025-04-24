@@ -1,0 +1,444 @@
+<robot name="simple4wheeler" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="pi_" value="3.142" />
+    <link name="map">
+    </link>
+
+    <link name="link_chassis">
+        <!--pose x,y,z roll pitch yaw(orientation)-->
+        <pose> 0 0 0.1 0 0 0 </pose>
+        <inertial>
+            <mass value="3"/>
+            <origin rpy="0 0 0" xyz="0 0 0.1"/>
+            <inertia ixx="0.03954"
+                    ixy="0"
+                    ixz="0"
+                    iyy="0.10620"
+                    iyz="0"
+                    izz="0.10620"/>
+        </inertial>
+        <collision name="collision_chassis">
+            <geometry>
+                <box size="0.5 0.3 0.07"/>
+            </geometry>
+        </collision>
+        <visual name="visual_chassis">
+            <geometry>
+                <box size="0.5 0.3 0.07"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="joint_map" type="fixed">
+        <parent link="map"/>
+        <child link="link_chassis"/>
+    </joint>
+
+
+    <link name="link_right_back_wheel">
+        <inertial>
+            <mass value="0.2"/>
+            <origin rpy="0 0 0" xyz="0 0 0.1"/>
+            <inertia ixx="0.00052"
+                     ixy="0"
+                     ixz="0"
+                     iyy="0.00052"
+                     iyz="0"
+                     izz="0.001"/>
+
+        </inertial>
+        <collision name="collision_right_back_wheel">
+            <geometry>
+                <cylinder length="0.04" radius="0.1" />
+            </geometry>
+        </collision>
+
+        <visual name="collision_right_back_wheel">
+            <geometry>
+                <cylinder length="0.04" radius="0.1" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="joint_right_back_wheel" type="continuous">
+        <origin rpy="1.5708 0 0" xyz="-0.20 -0.15 0"/>
+        <parent link="link_chassis"/>
+        <child link="link_right_back_wheel"/>
+        <axis rpy="0 1.5708 0" xyz="0 0 1"/>
+        <limit effort="10" velocity="10"/>
+        <joint_properties damping="1.0" friction="1.0"/>
+    </joint>
+
+    <link name="link_left_back_wheel">
+        <inertial>
+            <mass value="0.2"/>
+            <origin rpy="0 0 0" xyz="0 0 0.1"/>
+            <inertia ixx="0.00052"
+                     ixy="0"
+                     ixz="0"
+                     iyy="0.00052"
+                     iyz="0"
+                     izz="0.001"/>
+
+        </inertial>
+        <collision name="collision_left_back_wheel">
+            <geometry>
+                <cylinder length="0.04" radius="0.1" />
+            </geometry>
+        </collision>
+
+        <visual name="collision_left_back_wheel">
+            <geometry>
+                <cylinder length="0.04" radius="0.1" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="joint_left_back_wheel" type="continuous">
+        <origin rpy="1.5708 0 0" xyz="-0.20 0.15 0"/>
+        <parent link="link_chassis"/>
+        <child link="link_left_back_wheel"/>
+        <axis rpy="0 0 0" xyz="0 0 1"/>
+        <limit effort="10" velocity="10"/>
+        <joint_properties damping="1.0" friction="1.0"/>
+
+    </joint>
+
+
+
+    <!-- Left Front Wheel -->
+    <link name="link_left_front_wheel">
+        <inertial>
+            <mass value="0.2"/>
+            <origin rpy="0 0 0" xyz="0 0 0.1"/>
+            <inertia ixx="0.00052"
+                    ixy="0"
+                    ixz="0"
+                    iyy="0.00052" 
+                    iyz="0" 
+                    izz="0.001"/>
+        </inertial>
+        <collision name="collision_left_front_wheel">
+            <geometry>
+                <cylinder length="0.04" radius="0.1" />
+            </geometry>
+        </collision>
+
+        <visual name="visual_left_front_wheel">
+            <geometry>
+                <cylinder length="0.04" radius="0.1" />
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- Steering link for right front wheel -->
+    <link name="link_left_front_steer">
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.001" 
+                    ixy="0" 
+                    ixz="0" 
+                    iyy="0.001" 
+                    iyz="0" 
+                    izz="0.001"/>
+        </inertial>
+    </link>
+
+    <joint name="joint_left_front_steer" type="revolute">
+        <origin xyz="0.20 0.15 0" rpy="0 0 0"/>
+        <parent link="link_chassis"/>
+        <child link="link_left_front_steer"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-0.5" upper="0.5" effort="10" velocity="1.0"/>
+    </joint>
+
+    <joint name="joint_left_front_wheel" type="continuous">
+        <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+        <parent link="link_left_front_steer"/>
+        <child link="link_left_front_wheel"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="10" velocity="10"/>
+        <joint_properties damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- Right Front Wheel -->
+    <!-- Steering Link -->
+    <link name="link_right_front_steer" >
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.001" 
+                    ixy="0" 
+                    ixz="0" 
+                    iyy="0.001" 
+                    iyz="0" 
+                    izz="0.001"/>
+        </inertial>
+    </link>
+
+    <!-- Steering Joint -->
+    <joint name="joint_right_front_steer" type="revolute">
+        <origin rpy="0 0 0" xyz="0.20 -0.15 0" />
+        <parent link="link_chassis"/>
+        <child link="link_right_front_steer"/>
+        <axis xyz="0 0 1" />
+        <limit lower="-1.0" upper="1.0" effort="5.0" velocity="1.0" />
+    </joint>
+
+    <!-- Wheel link -->
+    <link name="link_right_front_wheel">
+        <inertial>
+            <mass value="0.2"/>
+            <origin rpy="0 0 0" xyz="0 0 0.1"/>
+            <inertia ixx="0.00052" 
+                    ixy="0" 
+                    ixz="0" 
+                    iyy="0.00052" 
+                    iyz="0" 
+                    izz="0.001"/>
+        </inertial>
+        <collision name="collision_right_front_wheel">
+            <geometry>
+                <cylinder length="0.04" radius="0.1" />
+            </geometry>
+        </collision>
+        <visual name="visual_right_front_wheel">
+            <geometry>
+                <cylinder length="0.04" radius="0.1" />
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- Wheel rotation joint -->
+    <joint name="joint_right_front_wheel" type="continuous">
+       <!--  <origin rpy="0 0 0" xyz="0.2 -0.15 0"/>  Adjust XYZ for real position -->
+        <origin rpy="1.5708 0 0" xyz=" 0 0 0"/> 
+        <parent link="link_right_front_steer"/>
+        <child link="link_right_front_wheel"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="10" velocity="10"/>
+        <joint_properties damping="1.0" friction="1.0"/>
+    </joint>
+
+   <!-- lidar -->
+    <link name="link_lidar">
+        <inertial>
+            <mass value="0.1"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.00001"
+                     ixy="0"
+                     ixz="0"
+                     iyy="0.00001"
+                     iyz="0"
+                     izz="0.00001"/>
+
+        </inertial>
+        <collision name="collision_lidar">
+            <geometry>
+                <box size="0.07 0.07 0.07"/>
+            </geometry>
+        </collision>
+
+        <visual name="visual_lidar">
+            <geometry>
+                <mesh filename="file://package://simple4wheeler/model/rplidar_a2_simple.stl" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="joint_lidar" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0.07" />
+        <parent link="link_chassis" />
+        <child link="link_lidar"/>
+    </joint>
+
+    <gazebo reference="link_lidar">
+        <sensor type="ray" name="sensor_lidar">
+            <update_rate>10</update_rate>
+            <visualize>true</visualize>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>400</samples>
+                        <min_angle>-${pi_}</min_angle>
+                        <max_angle>${pi_}</max_angle>
+                    </horizontal>
+
+                    <vertical>
+                        <samples>1</samples>
+                        <min_angle>-0.05</min_angle>
+                        <max_angle>0.05</max_angle>
+                    </vertical>
+                </scan>
+
+                    <range>
+                        <min>0.015</min>
+                        <max>12</max>
+                        <resolution>0.01</resolution>
+                    </range>
+            </ray>
+                <plugin name="gazebo_ros_lidar" filename="libgazebo_ros_laser.so">
+                    <gaussianNoise>0.01</gaussianNoise>
+                    <updateRate>10</updateRate>
+                    <topicName>lidar</topicName>
+                    <minRange>0.15</minRange>
+                    <maxRange>12</maxRange>
+                    <frameName>link_radar</frameName>
+                </plugin>
+        </sensor>
+    </gazebo>
+
+
+<!-- Camera Link -->
+    <link name="link_camera">
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0.1" rpy="0 0 0"/>
+            <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <box size="0.05 0.05 0.05"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="joint_camera" type="fixed">
+        <parent link="link_chassis"/>
+        <child link="link_camera"/>
+        <origin xyz="0 0 0.15" rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="link_camera">
+        <sensor type="camera" name="camera_sensor">
+            <update_rate>30.0</update_rate>
+            <camera>
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>100</far>
+                </clip>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <cameraName>simple_camera</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>link_camera</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- Ultrasonic Sensor Template -->
+   <!-- Front Center Sensor -->
+    <link name="ultrasonic_front_center">
+        <visual>
+            <geometry>
+            <cylinder radius="0.01" length="0.02"/>
+            </geometry>
+            <origin xyz="0.25 0 0.1" rpy="0 1.5708 0"/>
+        </visual>
+    </link>
+    <joint name="joint_ultrasonic_front_center" type="fixed">
+        <parent link="link_chassis"/>
+        <child link="ultrasonic_front_center"/>
+        <origin xyz="0.25 0 0.1" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Back Center Sensor -->
+    <link name="ultrasonic_back_center">
+        <visual>
+            <geometry>
+            <cylinder radius="0.01" length="0.02"/>
+            </geometry>
+            <origin xyz="-0.25 0 0.1" rpy="0 -1.5708 0"/>
+        </visual>
+    </link>
+    <joint name="joint_ultrasonic_back_center" type="fixed">
+        <parent link="link_chassis"/>
+        <child link="ultrasonic_back_center"/>
+        <origin xyz="-0.25 0 0.1" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Front Right Corner Sensor -->
+    <link name="ultrasonic_front_right_corner">
+        <visual>
+            <geometry>
+            <cylinder radius="0.01" length="0.02"/>
+            </geometry>
+            <origin xyz="0.25 -0.15 0.1" rpy="0 1.5708 0"/>
+        </visual>
+    </link>
+    <joint name="joint_ultrasonic_front_right_corner" type="fixed">
+        <parent link="link_chassis"/>
+        <child link="ultrasonic_front_right_corner"/>
+        <origin xyz="0.25 -0.15 0.1" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Back Right Corner Sensor -->
+    <link name="ultrasonic_back_right_corner">
+        <visual>
+            <geometry>
+            <cylinder radius="0.01" length="0.02"/>
+            </geometry>
+            <origin xyz="-0.25 -0.15 0.1" rpy="0 -1.5708 0"/>
+        </visual>
+    </link>
+    <joint name="joint_ultrasonic_back_right_corner" type="fixed">
+        <parent link="link_chassis"/>
+        <child link="ultrasonic_back_right_corner"/>
+        <origin xyz="-0.25 -0.15 0.1" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Front Left Corner Sensor -->
+    <link name="ultrasonic_front_left_corner">
+        <visual>
+            <geometry>
+            <cylinder radius="0.01" length="0.02"/>
+            </geometry>
+            <origin xyz="0.25 0.15 0.1" rpy="0 1.5708 0"/>
+        </visual>
+    </link>
+    <joint name="joint_ultrasonic_front_left_corner" type="fixed">
+        <parent link="link_chassis"/>
+        <child link="ultrasonic_front_left_corner"/>
+        <origin xyz="0.25 0.15 0.1" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Back Left Corner Sensor -->
+    <link name="ultrasonic_back_left_corner">
+        <visual>
+            <geometry>
+            <cylinder radius="0.01" length="0.02"/>
+            </geometry>
+            <origin xyz="-0.25 0.15 0.1" rpy="0 -1.5708 0"/>
+        </visual>
+    </link>
+    <joint name="joint_ultrasonic_back_left_corner" type="fixed">
+        <parent link="link_chassis"/>
+        <child link="ultrasonic_back_left_corner"/>
+        <origin xyz="-0.25 0.15 0.1" rpy="0 0 0"/>
+    </joint>
+
+
+    <gazebo>
+        <plugin name = "skid_steer_driver_controller filename" filename= "libgazebo_ros_skid_steer_drive.so">
+            <updateRate>100</updateRate>
+            <robotNamespace>/</robotNamespace>
+            <leftFrontJoint>joint_left_front_wheel</leftFrontJoint>
+            <rightFrontJoint>joint_right_front_wheel</rightFrontJoint>
+            <leftRearJoint>joint_left_back_wheel</leftRearJoint>
+            <rightRearJoint>joint_right_back_wheel</rightRearJoint>
+            <wheelSeparation>0.4</wheelSeparation>
+            <wheelDiameter>0.215</wheelDiameter>
+            <torque>20</torque>
+            <robotBaseFrame>base_link</robotBaseFrame>
+            <topicname>cmd_vel</topicname>
+            <broadcastTF>false</broadcastTF>
+        </plugin>
+    </gazebo>
+</robot>
